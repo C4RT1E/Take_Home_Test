@@ -2,10 +2,10 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, CheckCircle2, ListFilter, Inbox } from 'lucide-react';
+import { Search, Inbox } from 'lucide-react';
 import TodoItem from './TodoItem';
 
-export default function TodoList({ todos, onToggle, onDelete }) {
+export default function TodoList({ todos, onToggle, onDelete, onUpdate }) {
   const [filter, setFilter] = useState('all'); // 'all' | 'active' | 'completed'
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -57,7 +57,7 @@ export default function TodoList({ todos, onToggle, onDelete }) {
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id)}
-                className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                   isActive ? 'text-indigo-400' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -114,6 +114,7 @@ export default function TodoList({ todos, onToggle, onDelete }) {
                 todo={todo}
                 onToggle={onToggle}
                 onDelete={onDelete}
+                onUpdate={onUpdate}
               />
             ))}
           </AnimatePresence>

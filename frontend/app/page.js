@@ -60,6 +60,22 @@ export default function Home() {
     }
   };
 
+  const handleUpdateTodo = async (id, updates) => {
+    try {
+      setError(null);
+      const updated = await api.updateTodo(id, updates);
+      setTodos((prev) =>
+        prev.map((t) => (t.id === id ? updated : t))
+      );
+      showToast('Task updated successfully!');
+      return updated;
+    } catch (err) {
+      console.error('Failed to update todo:', err);
+      setError(err.message || 'Failed to update task.');
+      throw err;
+    }
+  };
+
   const handleToggleTodo = async (id, completed) => {
     try {
       setError(null);
@@ -134,7 +150,7 @@ export default function Home() {
         <button
           onClick={fetchTodos}
           disabled={loading}
-          className="px-3.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-slate-100 text-xs font-medium transition-all duration-200 flex items-center gap-2 shadow-sm disabled:opacity-50"
+          className="px-3.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-slate-100 text-xs font-medium transition-all duration-200 flex items-center gap-2 shadow-sm disabled:opacity-50 cursor-pointer"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh</span>
@@ -159,7 +175,7 @@ export default function Home() {
             </div>
             <button
               onClick={() => setError(null)}
-              className="text-xs text-rose-400 hover:text-rose-200 underline shrink-0 font-medium"
+              className="text-xs text-rose-400 hover:text-rose-200 underline shrink-0 font-medium cursor-pointer"
             >
               Dismiss
             </button>
@@ -185,6 +201,7 @@ export default function Home() {
             todos={todos}
             onToggle={handleToggleTodo}
             onDelete={handleDeleteTodo}
+            onUpdate={handleUpdateTodo}
           />
         </>
       )}
