@@ -38,7 +38,7 @@ npx sequelize-cli db:migrate
 npm run dev
 ```
 
-The API server will start on **`http://localhost:5000`**.
+The API server will start on **`http://localhost:5001`**.
 
 > **Note**: Database migrations automatically initialize the SQLite database file at `backend/database.sqlite`.
 
@@ -64,14 +64,14 @@ Both folders contain pre-configured `.env.example` files:
 
 ### Backend (`backend/.env.example`)
 ```env
-PORT=5000
+PORT=5001
 NODE_ENV=development
 DB_STORAGE=./database.sqlite
 ```
 
 ### Frontend (`frontend/.env.example`)
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_API_URL=http://localhost:5001
 ```
 
 To customize ports or API URLs, copy `.env.example` to `.env` in `backend/` and `.env.local` in `frontend/`.

@@ -21,7 +21,7 @@ npx sequelize-cli db:migrate
 npm run dev
 ```
 
-Server listens on `http://localhost:5000`.
+Server listens on `http://localhost:5001`.
 
 ## API Endpoints
 
