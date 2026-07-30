@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckSquare, RefreshCw, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 import { api } from '@/lib/api';
+import LiveClock from './components/LiveClock';
 import TodoStats from './components/TodoStats';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -182,6 +183,9 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Live Clock & Date Widget */}
+      <LiveClock />
 
       {/* Main Content Dashboard */}
       {loading && todos.length === 0 ? (
