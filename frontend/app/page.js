@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckSquare, RefreshCw, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
+import { CheckSquare, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { api } from '@/lib/api';
 import LiveClock from './components/LiveClock';
 import TodoStats from './components/TodoStats';
@@ -135,11 +135,6 @@ export default function Home() {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" /> Modern Task Manager
-            </span>
-          </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight flex items-center gap-3">
             <span className="p-2 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30">
               <CheckSquare className="w-6 h-6 sm:w-7 sm:h-7" />
