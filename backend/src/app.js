@@ -9,6 +9,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root welcome route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Welcome to Todo Tracker API',
+    status: 'online',
+    endpoints: {
+      todos: 'GET, POST /todos',
+      todoById: 'PUT, DELETE /todos/:id',
+      health: 'GET /health'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
