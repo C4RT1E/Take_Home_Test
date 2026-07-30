@@ -1,25 +1,13 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, AlignLeft, AlertCircle, Loader2 } from 'lucide-react';
+import { Plus, AlertCircle, Loader2 } from 'lucide-react';
 
 export default function TodoForm({ onAddTodo, isLoading }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [showDescription, setShowDescription] = useState(false);
   const [error, setError] = useState('');
-  const textareaRef = useRef(null);
-
-  const toggleDescription = () => {
-    const nextState = !showDescription;
-    setShowDescription(nextState);
-    if (nextState) {
-      setTimeout(() => {
-        textareaRef.current?.focus();
-      }, 50);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +27,6 @@ export default function TodoForm({ onAddTodo, isLoading }) {
       // Reset form on success
       setTitle('');
       setDescription('');
-      setShowDescription(false);
     } catch (err) {
       setError(err.message || 'Failed to add todo');
     }
@@ -60,18 +47,6 @@ export default function TodoForm({ onAddTodo, isLoading }) {
           </span>
           Create New Task
         </h2>
-        <button
-          type="button"
-          onClick={toggleDescription}
-          className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
-            showDescription
-              ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300 shadow-sm shadow-indigo-500/10'
-              : 'bg-slate-800/80 hover:bg-slate-800 border-slate-700/80 text-slate-300 hover:text-white'
-          }`}
-        >
-          <AlignLeft className="w-3.5 h-3.5" />
-          <span>{showDescription ? 'Hide Details' : '+ Add Details'}</span>
-        </button>
       </div>
 
       <div className="space-y-3">
@@ -91,25 +66,16 @@ export default function TodoForm({ onAddTodo, isLoading }) {
           />
         </div>
 
-        {/* Description Textarea Field */}
-        {showDescription && (
-          <motion.div
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            transition={{ duration: 0.2 }}
-          >
-            <textarea
-              ref={textareaRef}
-              placeholder="Add optional notes or description..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              disabled={isLoading}
-              rows={3}
-              className="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
-            />
-          </motion.div>
-        )}
+        <div>
+          <textarea
+            placeholder="Add optional notes or description..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            disabled={isLoading}
+            rows={2}
+            className="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
+          />
+        </div>
 
         <AnimatePresence>
           {error && (
@@ -126,10 +92,7 @@ export default function TodoForm({ onAddTodo, isLoading }) {
         </AnimatePresence>
       </div>
 
-      <div className="flex items-center justify-between pt-1">
-        <span className="text-xs text-slate-500">
-          {showDescription ? 'Task title & optional details ready' : 'Click "+ Add Details" to include notes'}
-        </span>
+      <div className="flex justify-end pt-1">
         <button
           type="submit"
           disabled={isLoading || !title.trim()}
