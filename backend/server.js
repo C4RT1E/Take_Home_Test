@@ -12,8 +12,20 @@ async function startServer() {
     await sequelize.authenticate();
     console.log('Database connection established successfully.');
 
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`Todo Tracker API Server running on port ${PORT}`);
+    });
+
+    server.on('error', (error) => {
+      if (error.code === 'EADDRINUSE') {
+        console.log(`\n---------------------------------------------------------`);
+        console.log(`⚠️  PORT ${PORT} IS ALREADY IN USE!`);
+        console.log(`The Todo Tracker API is ALREADY running in another terminal window.`);
+        console.log(`Your API is active at: http://localhost:${PORT}`);
+        console.log(`---------------------------------------------------------\n`);
+      } else {
+        console.error('Server error:', error);
+      }
     });
   } catch (error) {
     console.error('Unable to connect to database:', error);
