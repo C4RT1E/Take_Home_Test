@@ -5,6 +5,9 @@ const getApiUrl = () => {
   if (envUrl && !envUrl.includes(':5000')) {
     return envUrl;
   }
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production' && !envUrl) {
+    return '';
+  }
   return 'http://localhost:5001';
 };
 
