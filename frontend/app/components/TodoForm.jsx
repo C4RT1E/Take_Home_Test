@@ -41,10 +41,7 @@ export default function TodoForm({ onAddTodo, isLoading }) {
       className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-5 sm:p-6 mb-8 shadow-xl shadow-slate-950/50 space-y-4"
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2">
-          <span className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-            <Plus className="w-4 h-4" />
-          </span>
+        <h2 className="text-lg font-semibold text-slate-100">
           Create New Task
         </h2>
       </div>
