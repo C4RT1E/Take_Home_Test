@@ -28,6 +28,10 @@ export default (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
+      },
+      dueDate: {
+        type: DataTypes.DATE,
+        allowNull: true
       }
     },
     {

@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, AlertCircle, Loader2 } from 'lucide-react';
+import { Plus, Calendar, AlertCircle, Loader2 } from 'lucide-react';
 
 export default function TodoForm({ onAddTodo, isLoading }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [dueDate, setDueDate] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -21,12 +22,14 @@ export default function TodoForm({ onAddTodo, isLoading }) {
     try {
       await onAddTodo({
         title: title.trim(),
-        description: description.trim() || null
+        description: description.trim() || null,
+        dueDate: dueDate ? new Date(dueDate).toISOString() : null
       });
 
       // Reset form on success
       setTitle('');
       setDescription('');
+      setDueDate('');
     } catch (err) {
       setError(err.message || 'Failed to add todo');
     }
@@ -63,15 +66,30 @@ export default function TodoForm({ onAddTodo, isLoading }) {
           />
         </div>
 
-        <div>
-          <textarea
-            placeholder="Add optional notes or description..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            disabled={isLoading}
-            rows={2}
-            className="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="sm:col-span-2">
+            <textarea
+              placeholder="Add optional notes or description..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              disabled={isLoading}
+              rows={2}
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
+            />
+          </div>
+
+          <div className="flex flex-col justify-start">
+            <label className="text-xs font-medium text-slate-400 mb-1 flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-indigo-400" /> Set Deadline:
+            </label>
+            <input
+              type="datetime-local"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              disabled={isLoading}
+              className="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all color-scheme-dark"
+            />
+          </div>
         </div>
 
         <AnimatePresence>

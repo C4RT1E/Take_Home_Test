@@ -21,16 +21,26 @@ export const getTodos = async (req, res, next) => {
  */
 export const createTodo = async (req, res, next) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, dueDate } = req.body;
 
     if (!title || typeof title !== 'string' || title.trim() === '') {
       return res.status(400).json({ error: 'Title is required and cannot be empty' });
     }
 
+    let parsedDueDate = null;
+    if (dueDate) {
+      const d = new Date(dueDate);
+      if (isNaN(d.getTime())) {
+        return res.status(400).json({ error: 'Invalid date/time format for deadline' });
+      }
+      parsedDueDate = d;
+    }
+
     const todo = await Todo.create({
       title: title.trim(),
       description: description ? description.trim() : null,
-      completed: false
+      completed: false,
+      dueDate: parsedDueDate
     });
 
     return res.status(201).json(todo);
@@ -45,7 +55,7 @@ export const createTodo = async (req, res, next) => {
 export const updateTodo = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, description, completed } = req.body;
+    const { title, description, completed, dueDate } = req.body;
 
     const todo = await Todo.findByPk(id);
     if (!todo) {
@@ -68,6 +78,18 @@ export const updateTodo = async (req, res, next) => {
         return res.status(400).json({ error: 'Completed must be a boolean value' });
       }
       todo.completed = completed;
+    }
+
+    if (dueDate !== undefined) {
+      if (dueDate === null || dueDate === '') {
+        todo.dueDate = null;
+      } else {
+        const d = new Date(dueDate);
+        if (isNaN(d.getTime())) {
+          return res.status(400).json({ error: 'Invalid date/time format for deadline' });
+        }
+        todo.dueDate = d;
+      }
     }
 
     await todo.save();
