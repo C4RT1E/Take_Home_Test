@@ -2,13 +2,38 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Calendar, AlertCircle, Loader2 } from 'lucide-react';
+import { Plus, Calendar, AlertCircle, Loader2, Sparkles, X } from 'lucide-react';
 
 export default function TodoForm({ onAddTodo, isLoading }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [error, setError] = useState('');
+
+  const formatForInput = (d) => {
+    const tzOffset = d.getTimezoneOffset() * 60000;
+    return new Date(d.getTime() - tzOffset).toISOString().slice(0, 16);
+  };
+
+  const applyPreset = (type) => {
+    const now = new Date();
+    if (type === 'today_5pm') {
+      now.setHours(17, 0, 0, 0);
+      setDueDate(formatForInput(now));
+    } else if (type === 'tomorrow_9am') {
+      now.setDate(now.getDate() + 1);
+      now.setHours(9, 0, 0, 0);
+      setDueDate(formatForInput(now));
+    } else if (type === 'in_3_days') {
+      now.setDate(now.getDate() + 3);
+      now.setHours(17, 0, 0, 0);
+      setDueDate(formatForInput(now));
+    } else if (type === 'next_week') {
+      now.setDate(now.getDate() + 7);
+      now.setHours(9, 0, 0, 0);
+      setDueDate(formatForInput(now));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +74,8 @@ export default function TodoForm({ onAddTodo, isLoading }) {
         </h2>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
+        {/* Title Input */}
         <div>
           <input
             type="text"
@@ -66,29 +92,80 @@ export default function TodoForm({ onAddTodo, isLoading }) {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="sm:col-span-2">
-            <textarea
-              placeholder="Add optional notes or description..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              disabled={isLoading}
-              rows={2}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
-            />
+        {/* Description Textarea */}
+        <div>
+          <textarea
+            placeholder="Add optional notes or description..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            disabled={isLoading}
+            rows={2}
+            className="w-full px-4 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
+          />
+        </div>
+
+        {/* Styled Set Deadline Section */}
+        <div className="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2.5">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+              <span className="p-1 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <Calendar className="w-3.5 h-3.5" />
+              </span>
+              Task Deadline
+            </label>
+            {dueDate && (
+              <button
+                type="button"
+                onClick={() => setDueDate('')}
+                className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors flex items-center gap-1 cursor-pointer font-medium"
+              >
+                <X className="w-3 h-3" /> Clear Deadline
+              </button>
+            )}
           </div>
 
-          <div className="flex flex-col justify-start">
-            <label className="text-xs font-medium text-slate-400 mb-1 flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-indigo-400" /> Set Deadline:
-            </label>
-            <input
-              type="datetime-local"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              disabled={isLoading}
-              className="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all color-scheme-dark"
-            />
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+            <div className="relative flex-1">
+              <input
+                type="datetime-local"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                disabled={isLoading}
+                className="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700/80 text-slate-100 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
+              />
+            </div>
+
+            {/* Quick Shortcut Chips */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <button
+                type="button"
+                onClick={() => applyPreset('today_5pm')}
+                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+              >
+                Today 5 PM
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPreset('tomorrow_9am')}
+                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+              >
+                Tomorrow 9 AM
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPreset('in_3_days')}
+                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+              >
+                In 3 Days
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPreset('next_week')}
+                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+              >
+                Next Week
+              </button>
+            </div>
           </div>
         </div>
 
