@@ -5,8 +5,16 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Middleware - Enable CORS for all origins and HTTP methods
+app.use(
+  cors({
+    origin: true, // Allow all origins
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+  })
+);
+
 app.use(express.json());
 
 // Root welcome route

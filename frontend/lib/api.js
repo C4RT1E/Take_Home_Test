@@ -1,6 +1,12 @@
 // i like tacos
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+const getApiUrl = () => {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl && !envUrl.includes(':5000')) {
+    return envUrl;
+  }
+  return 'http://localhost:5001';
+};
 
 /**
  * Custom error class for API errors
@@ -17,14 +23,16 @@ export class ApiError extends Error {
  * Generic request wrapper around native fetch
  */
 async function request(endpoint, options = {}) {
-  const url = `${API_URL}${endpoint}`;
-  
+  const baseUrl = getApiUrl();
+  const url = `${baseUrl}${endpoint}`;
+
   const defaultHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   };
 
   const config = {
+    mode: 'cors',
     ...options,
     headers: {
       ...defaultHeaders,
@@ -48,7 +56,9 @@ async function request(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-      const errorMessage = (data && data.error) ? data.error : `HTTP Error ${response.status}`;
+      const errorMessage = (data && typeof data === 'object' && data.error)
+        ? data.error
+        : `HTTP Error ${response.status}`;
       throw new ApiError(errorMessage, response.status);
     }
 
@@ -58,6 +68,7 @@ async function request(endpoint, options = {}) {
       throw error;
     }
     // Network or parse error
+    console.error('API Request Error:', error);
     throw new ApiError(error.message || 'Failed to communicate with server', 500);
   }
 }

@@ -32,7 +32,7 @@ export default function Home() {
       setTodos(data || []);
     } catch (err) {
       console.error('Failed to fetch todos:', err);
-      setError(err.message || 'Could not connect to the Todo server. Please make sure the backend API is running.');
+      setError(err.message || 'Could not connect to the Todo server. Please make sure the backend API is running on port 5001.');
     } finally {
       setLoading(false);
     }
@@ -49,10 +49,12 @@ export default function Home() {
       const createdTodo = await api.createTodo(newTodoData);
       setTodos((prev) => [createdTodo, ...prev]);
       showToast('Task created successfully!');
+      return createdTodo;
     } catch (err) {
       console.error('Failed to add todo:', err);
-      setError(err.message || 'Failed to create todo.');
-      throw err;
+      const msg = err.message || 'Failed to create todo.';
+      setError(msg);
+      throw new Error(msg);
     } finally {
       setSubmitting(false);
     }
@@ -151,7 +153,7 @@ export default function Home() {
             <div className="flex items-start gap-2.5">
               <AlertCircle className="w-5 h-5 shrink-0 text-rose-400 mt-0.5" />
               <div>
-                <p className="font-semibold text-rose-200">Connection or Server Error</p>
+                <p className="font-semibold text-rose-200">Notice</p>
                 <p className="text-xs text-rose-300/90 mt-0.5">{error}</p>
               </div>
             </div>
