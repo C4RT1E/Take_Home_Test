@@ -4,7 +4,7 @@ A full-stack **Todo Tracker** web application built with a decoupled architectur
 
 ---
 
-## 📸 Overview & Architecture
+## Overview & Architecture
 
 ```
 repo/
@@ -19,7 +19,7 @@ The application is split into two completely independent folders:
 
 ---
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher
@@ -58,7 +58,7 @@ The web application will start on **`http://localhost:3000`**.
 
 ---
 
-## ⚙️ Environment Variables
+## Environment Variables
 
 Both folders contain pre-configured `.env.example` files:
 
@@ -78,13 +78,13 @@ To customize ports or API URLs, copy `.env.example` to `.env` in `backend/` and 
 
 ---
 
-## 📡 REST API Reference
+## REST API Reference
 
 | Method | Endpoint | Description | Request Body | Success Response | Error Responses |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `GET` | `/todos` | List all todos | *None* | `200 OK` + array | `500 Internal Server Error` |
-| `POST` | `/todos` | Create a todo | `{ "title": "...", "description": "..." }` | `201 Created` + object | `400 Bad Request` (missing/empty title), `500` |
-| `PUT` | `/todos/:id` | Update a todo | `{ "title": "...", "description": "...", "completed": true }` | `200 OK` + updated object | `400` (invalid body), `404` (not found), `500` |
+| `POST` | `/todos` | Create a todo | `{ "title": "...", "description": "...", "dueDate": "..." }` | `201 Created` + object | `400 Bad Request` (missing/empty title), `500` |
+| `PUT` | `/todos/:id` | Update a todo | `{ "title": "...", "description": "...", "completed": true, "dueDate": "..." }` | `200 OK` + updated object | `400` (invalid body), `404` (not found), `500` |
 | `DELETE` | `/todos/:id` | Delete a todo | *None* | `204 No Content` | `404` (not found), `500` |
 
 ### Error Response Format
@@ -97,7 +97,7 @@ All errors return a consistent JSON shape:
 
 ---
 
-## 🧠 Key Design Decisions
+## Key Design Decisions
 
 1. **Sequelize Migrations over `sequelize.sync()`**:
    - Schema changes and database table creations are managed via explicit, version-controlled CLI migrations (`src/migrations/`).
@@ -118,7 +118,7 @@ All errors return a consistent JSON shape:
 
 ---
 
-## 🔮 Possible Improvements & Future Extensions
+## Possible Improvements & Future Extensions
 
 - **Authentication & User Isolation**: Add JWT/OAuth2 authentication and link todos to individual `UserId` foreign keys.
 - **Pagination & Infinite Scroll**: Introduce `page` and `limit` query parameters on `GET /todos` for scaling to thousands of tasks.
