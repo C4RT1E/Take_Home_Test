@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, AlignLeft, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -9,6 +9,17 @@ export default function TodoForm({ onAddTodo, isLoading }) {
   const [description, setDescription] = useState('');
   const [showDescription, setShowDescription] = useState(false);
   const [error, setError] = useState('');
+  const textareaRef = useRef(null);
+
+  const toggleDescription = () => {
+    const nextState = !showDescription;
+    setShowDescription(nextState);
+    if (nextState) {
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 50);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,15 +62,15 @@ export default function TodoForm({ onAddTodo, isLoading }) {
         </h2>
         <button
           type="button"
-          onClick={() => setShowDescription(!showDescription)}
-          className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition-all duration-200 flex items-center gap-1.5 ${
+          onClick={toggleDescription}
+          className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
             showDescription
-              ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400'
-              : 'bg-slate-800/60 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+              ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300 shadow-sm shadow-indigo-500/10'
+              : 'bg-slate-800/80 hover:bg-slate-800 border-slate-700/80 text-slate-300 hover:text-white'
           }`}
         >
           <AlignLeft className="w-3.5 h-3.5" />
-          {showDescription ? 'Hide Details' : 'Add Details'}
+          <span>{showDescription ? 'Hide Details' : '+ Add Details'}</span>
         </button>
       </div>
 
@@ -80,26 +91,25 @@ export default function TodoForm({ onAddTodo, isLoading }) {
           />
         </div>
 
-        <AnimatePresence>
-          {showDescription && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="overflow-hidden"
-            >
-              <textarea
-                placeholder="Add optional notes or details..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                disabled={isLoading}
-                rows={3}
-                className="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Description Textarea Field */}
+        {showDescription && (
+          <motion.div
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.2 }}
+          >
+            <textarea
+              ref={textareaRef}
+              placeholder="Add optional notes or description..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              disabled={isLoading}
+              rows={3}
+              className="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
+            />
+          </motion.div>
+        )}
 
         <AnimatePresence>
           {error && (
@@ -116,11 +126,14 @@ export default function TodoForm({ onAddTodo, isLoading }) {
         </AnimatePresence>
       </div>
 
-      <div className="flex justify-end pt-1">
+      <div className="flex items-center justify-between pt-1">
+        <span className="text-xs text-slate-500">
+          {showDescription ? 'Task title & optional details ready' : 'Click "+ Add Details" to include notes'}
+        </span>
         <button
           type="submit"
           disabled={isLoading || !title.trim()}
-          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-sm shadow-lg shadow-indigo-600/25 hover:shadow-indigo-500/35 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-200 flex items-center gap-2"
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-sm shadow-lg shadow-indigo-600/25 hover:shadow-indigo-500/35 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-200 flex items-center gap-2 cursor-pointer"
         >
           {isLoading ? (
             <>
