@@ -1,1 +1,1 @@
-{"services": {"frontend": {"root": "frontend", "framework": "nextjs"}, "backend": {"root": "backend"}}}
+{"services": {"frontend": {"root": "frontend", "framework": "nextjs"}, "backend": {"root": "backend", "entrypoint": "api/index.js"}}}
