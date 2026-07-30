@@ -2,7 +2,7 @@
   "name": "todo-tracker-app",
   "version": "1.0.0",
   "private": true,
-  "description": "Todo Tracker - Intern Take-Home Test Monorepo Workspace",
+  "description": "Todo Tracker Monorepo Workspace",
   "scripts": {
     "dev": "npm --prefix backend run dev",
     "dev:backend": "npm --prefix backend run dev",

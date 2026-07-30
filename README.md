@@ -1,4 +1,4 @@
-# Todo Tracker — Intern Take-Home Test
+# Todo Tracker — Full Stack Task Manager
 
 A full-stack **Todo Tracker** web application built with a decoupled architecture: an **Express.js + Sequelize + SQLite** REST API backend and a **Next.js (App Router) + Tailwind CSS + Framer Motion** frontend.
 

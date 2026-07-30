@@ -137,7 +137,7 @@ export default function Home() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" /> Intern Take-Home Test
+              <Sparkles className="w-3.5 h-3.5" /> Modern Task Manager
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight flex items-center gap-3">
