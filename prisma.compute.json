@@ -1,0 +1,25 @@
+{
+  "region": "ap-southeast-1",
+  "apps": {
+    "todo-tracker-backend": {
+      "name": "todo-tracker-backend",
+      "root": "backend",
+      "framework": "bun",
+      "entry": "server.js",
+      "httpPort": 3000,
+      "build": {
+        "command": null,
+        "outputDirectory": "."
+      }
+    },
+    "frontend": {
+      "name": "frontend",
+      "root": "frontend",
+      "framework": "nextjs",
+      "httpPort": 3000,
+      "build": {
+        "command": "npm run build"
+      }
+    }
+  }
+}
