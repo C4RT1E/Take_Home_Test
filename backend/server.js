@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import app from './src/app.js';
-import { sequelize } from './src/models/index.js';
+import prisma from './src/lib/prisma.js';
 
 dotenv.config();
 
@@ -8,9 +8,8 @@ const PORT = process.env.PORT || 5001;
 
 async function startServer() {
   try {
-    // Verify DB Connection
-    await sequelize.authenticate();
-    console.log('Database connection established successfully.');
+    await prisma.$connect();
+    console.log('Prisma Database connection established successfully.');
 
     const server = app.listen(PORT, () => {
       console.log(`Todo Tracker API Server running on port ${PORT}`);

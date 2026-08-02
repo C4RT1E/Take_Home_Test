@@ -1,14 +1,12 @@
-import { Todo } from '../models/index.js';
-
-// i like tacos
+import prisma from '../lib/prisma.js';
 
 /**
  * Controller to fetch all todos ordered by creation date descending
  */
 export const getTodos = async (req, res, next) => {
   try {
-    const todos = await Todo.findAll({
-      order: [['createdAt', 'DESC']]
+    const todos = await prisma.todo.findMany({
+      orderBy: { createdAt: 'desc' }
     });
     return res.status(200).json(todos);
   } catch (error) {
@@ -36,11 +34,13 @@ export const createTodo = async (req, res, next) => {
       parsedDueDate = d;
     }
 
-    const todo = await Todo.create({
-      title: title.trim(),
-      description: description ? description.trim() : null,
-      completed: false,
-      dueDate: parsedDueDate
+    const todo = await prisma.todo.create({
+      data: {
+        title: title.trim(),
+        description: description ? description.trim() : null,
+        completed: false,
+        dueDate: parsedDueDate
+      }
     });
 
     return res.status(201).json(todo);
@@ -56,45 +56,58 @@ export const updateTodo = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, description, completed, dueDate } = req.body;
+    const numericId = Number(id);
 
-    const todo = await Todo.findByPk(id);
-    if (!todo) {
+    if (isNaN(numericId)) {
+      return res.status(400).json({ error: 'Invalid todo ID' });
+    }
+
+    const existingTodo = await prisma.todo.findUnique({
+      where: { id: numericId }
+    });
+
+    if (!existingTodo) {
       return res.status(404).json({ error: 'Todo not found' });
     }
+
+    const updateData = {};
 
     if (title !== undefined) {
       if (typeof title !== 'string' || title.trim() === '') {
         return res.status(400).json({ error: 'Title cannot be empty' });
       }
-      todo.title = title.trim();
+      updateData.title = title.trim();
     }
 
     if (description !== undefined) {
-      todo.description = description ? description.trim() : null;
+      updateData.description = description ? description.trim() : null;
     }
 
     if (completed !== undefined) {
       if (typeof completed !== 'boolean') {
         return res.status(400).json({ error: 'Completed must be a boolean value' });
       }
-      todo.completed = completed;
+      updateData.completed = completed;
     }
 
     if (dueDate !== undefined) {
       if (dueDate === null || dueDate === '') {
-        todo.dueDate = null;
+        updateData.dueDate = null;
       } else {
         const d = new Date(dueDate);
         if (isNaN(d.getTime())) {
           return res.status(400).json({ error: 'Invalid date/time format for deadline' });
         }
-        todo.dueDate = d;
+        updateData.dueDate = d;
       }
     }
 
-    await todo.save();
+    const updatedTodo = await prisma.todo.update({
+      where: { id: numericId },
+      data: updateData
+    });
 
-    return res.status(200).json(todo);
+    return res.status(200).json(updatedTodo);
   } catch (error) {
     next(error);
   }
@@ -106,13 +119,23 @@ export const updateTodo = async (req, res, next) => {
 export const deleteTodo = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const numericId = Number(id);
 
-    const todo = await Todo.findByPk(id);
-    if (!todo) {
+    if (isNaN(numericId)) {
+      return res.status(400).json({ error: 'Invalid todo ID' });
+    }
+
+    const existingTodo = await prisma.todo.findUnique({
+      where: { id: numericId }
+    });
+
+    if (!existingTodo) {
       return res.status(404).json({ error: 'Todo not found' });
     }
 
-    await todo.destroy();
+    await prisma.todo.delete({
+      where: { id: numericId }
+    });
 
     return res.status(204).send();
   } catch (error) {

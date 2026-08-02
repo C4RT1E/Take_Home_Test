@@ -1,26 +1,25 @@
 {
   "name": "todo-tracker-backend",
   "version": "1.0.0",
-  "description": "Express + Sequelize + SQLite REST API for Todo Tracker",
+  "description": "Express + Prisma + Supabase REST API for Todo Tracker",
   "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "migrate": "npx sequelize-cli db:migrate",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo"
+    "build": "prisma generate",
+    "postinstall": "prisma generate",
+    "db:push": "prisma db push"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "pg": "^8.22.0",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3",
-    "sqlite3": "^5.1.7"
+    "pg": "^8.22.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",
-    "sequelize-cli": "^6.6.2"
+    "prisma": "^5.22.0"
   }
 }

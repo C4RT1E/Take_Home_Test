@@ -1,22 +1,11 @@
 import app from '../src/app.js';
-import { sequelize } from '../src/models/index.js';
-
-// Auto-sync database tables on serverless cold start if needed
-let isConnected = false;
-
-async function ensureDb() {
-  if (!isConnected) {
-    try {
-      await sequelize.authenticate();
-      await sequelize.sync(); // Ensures Todos table exists on Supabase PostgreSQL
-      isConnected = true;
-    } catch (err) {
-      console.error('Vercel Serverless DB Sync Error:', err);
-    }
-  }
-}
+import prisma from '../src/lib/prisma.js';
 
 export default async function handler(req, res) {
-  await ensureDb();
+  try {
+    await prisma.$connect();
+  } catch (err) {
+    console.error('Prisma Vercel Serverless Connection Error:', err);
+  }
   return app(req, res);
 }
