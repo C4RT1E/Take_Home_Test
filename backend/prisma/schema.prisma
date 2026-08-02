@@ -11,6 +11,7 @@ datasource db {
 
 model Todo {
   id          Int       @id @default(autoincrement())
+  userId      String    @default("guest")
   title       String
   description String?
   completed   Boolean   @default(false)
@@ -18,5 +19,6 @@ model Todo {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
+  @@index([userId])
   @@map("Todos")
 }

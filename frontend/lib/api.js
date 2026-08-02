@@ -1,5 +1,3 @@
-// i like tacos
-
 const getApiUrl = () => {
   const envUrl = process.env.NEXT_PUBLIC_API_URL;
   if (envUrl && !envUrl.includes(':5000')) {
@@ -9,6 +7,16 @@ const getApiUrl = () => {
     return '';
   }
   return 'http://localhost:5001';
+};
+
+const getUserId = () => {
+  if (typeof window === 'undefined') return 'server_guest';
+  let userId = localStorage.getItem('todo_tracker_user_id');
+  if (!userId) {
+    userId = 'usr_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('todo_tracker_user_id', userId);
+  }
+  return userId;
 };
 
 /**
@@ -28,10 +36,12 @@ export class ApiError extends Error {
 async function request(endpoint, options = {}) {
   const baseUrl = getApiUrl();
   const url = `${baseUrl}${endpoint}`;
+  const userId = getUserId();
 
   const defaultHeaders = {
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    'Accept': 'application/json',
+    'X-User-Id': userId
   };
 
   const config = {
@@ -70,39 +80,26 @@ async function request(endpoint, options = {}) {
     if (error instanceof ApiError) {
       throw error;
     }
-    // Network or parse error
     console.error('API Request Error:', error);
     throw new ApiError(error.message || 'Failed to communicate with server', 500);
   }
 }
 
 export const api = {
-  /**
-   * Fetch all todos
-   */
   getTodos: () => request('/todos', { method: 'GET' }),
 
-  /**
-   * Create a new todo
-   */
   createTodo: (todoData) =>
     request('/todos', {
       method: 'POST',
       body: JSON.stringify(todoData)
     }),
 
-  /**
-   * Update an existing todo
-   */
   updateTodo: (id, updates) =>
     request(`/todos/${id}`, {
       method: 'PUT',
       body: JSON.stringify(updates)
     }),
 
-  /**
-   * Delete a todo by ID
-   */
   deleteTodo: (id) =>
     request(`/todos/${id}`, {
       method: 'DELETE'

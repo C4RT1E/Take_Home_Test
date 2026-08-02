@@ -1,11 +1,21 @@
 import prisma from '../lib/prisma.js';
 
+const getUserId = (req) => {
+  const headerUserId = req.headers['x-user-id'];
+  if (headerUserId && typeof headerUserId === 'string' && headerUserId.trim() !== '') {
+    return headerUserId.trim();
+  }
+  return 'guest';
+};
+
 /**
- * Controller to fetch all todos ordered by creation date descending
+ * Controller to fetch all todos for the requesting user ordered by creation date descending
  */
 export const getTodos = async (req, res, next) => {
   try {
+    const userId = getUserId(req);
     const todos = await prisma.todo.findMany({
+      where: { userId },
       orderBy: { createdAt: 'desc' }
     });
     return res.status(200).json(todos);
@@ -15,10 +25,11 @@ export const getTodos = async (req, res, next) => {
 };
 
 /**
- * Controller to create a new todo
+ * Controller to create a new todo for the requesting user
  */
 export const createTodo = async (req, res, next) => {
   try {
+    const userId = getUserId(req);
     const { title, description, dueDate } = req.body;
 
     if (!title || typeof title !== 'string' || title.trim() === '') {
@@ -36,6 +47,7 @@ export const createTodo = async (req, res, next) => {
 
     const todo = await prisma.todo.create({
       data: {
+        userId,
         title: title.trim(),
         description: description ? description.trim() : null,
         completed: false,
@@ -50,10 +62,11 @@ export const createTodo = async (req, res, next) => {
 };
 
 /**
- * Controller to update an existing todo (partial/full update)
+ * Controller to update an existing todo belonging to the requesting user
  */
 export const updateTodo = async (req, res, next) => {
   try {
+    const userId = getUserId(req);
     const { id } = req.params;
     const { title, description, completed, dueDate } = req.body;
     const numericId = Number(id);
@@ -62,8 +75,8 @@ export const updateTodo = async (req, res, next) => {
       return res.status(400).json({ error: 'Invalid todo ID' });
     }
 
-    const existingTodo = await prisma.todo.findUnique({
-      where: { id: numericId }
+    const existingTodo = await prisma.todo.findFirst({
+      where: { id: numericId, userId }
     });
 
     if (!existingTodo) {
@@ -114,10 +127,11 @@ export const updateTodo = async (req, res, next) => {
 };
 
 /**
- * Controller to delete a todo by ID
+ * Controller to delete a todo belonging to the requesting user
  */
 export const deleteTodo = async (req, res, next) => {
   try {
+    const userId = getUserId(req);
     const { id } = req.params;
     const numericId = Number(id);
 
@@ -125,8 +139,8 @@ export const deleteTodo = async (req, res, next) => {
       return res.status(400).json({ error: 'Invalid todo ID' });
     }
 
-    const existingTodo = await prisma.todo.findUnique({
-      where: { id: numericId }
+    const existingTodo = await prisma.todo.findFirst({
+      where: { id: numericId, userId }
     });
 
     if (!existingTodo) {
