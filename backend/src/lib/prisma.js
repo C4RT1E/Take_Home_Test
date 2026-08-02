@@ -1,6 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 
-const databaseUrl = process.env.DATABASE_URL || 'file:./dev.db';
+let databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    databaseUrl = 'file:/tmp/dev.db';
+  } else {
+    databaseUrl = 'file:./dev.db';
+  }
+}
 
 let prisma;
 
