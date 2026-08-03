@@ -12,6 +12,13 @@ export const metadata = {
   description: 'Full-stack todo tracking web application built with Next.js App Router, Express, Sequelize, and SQLite.'
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#020617'
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`dark ${plusJakarta.variable}`}>

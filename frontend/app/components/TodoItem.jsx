@@ -179,21 +179,21 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
           : deadlineStatus && deadlineStatus.label.includes('Overdue')
           ? 'border-rose-500/40 bg-rose-950/10'
           : 'border-slate-800 hover:border-slate-700'
-      } rounded-2xl p-4 sm:p-5 transition-all duration-300 shadow-md shadow-slate-950/30`}
+      } rounded-2xl p-3.5 sm:p-5 transition-all duration-300 shadow-md shadow-slate-950/30`}
     >
       {isEditing ? (
         /* Inline Edit Form View */
         <form onSubmit={handleSaveEdit} className="space-y-3">
           <div className="flex items-center justify-between gap-2 mb-1">
-            <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Edit3 className="w-3.5 h-3.5" /> Editing Task #{todo.id}
+            <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5 truncate">
+              <Edit3 className="w-3.5 h-3.5 shrink-0" /> Editing Task #{todo.id}
             </span>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={handleCancelEdit}
                 disabled={isSaving}
-                className="px-2.5 py-1 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 text-xs font-medium transition-colors flex items-center gap-1 cursor-pointer"
+                className="px-3 py-1.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800 text-xs font-medium transition-colors flex items-center gap-1 cursor-pointer min-h-[36px]"
               >
                 <X className="w-3.5 h-3.5" />
                 <span>Cancel</span>
@@ -201,7 +201,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
               <button
                 type="submit"
                 disabled={isSaving || !editTitle.trim()}
-                className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors flex items-center gap-1.5 shadow-sm shadow-indigo-600/30 disabled:opacity-50 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm shadow-indigo-600/30 disabled:opacity-50 cursor-pointer min-h-[36px]"
               >
                 {isSaving ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -226,7 +226,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
               onKeyDown={(e) => {
                 if (e.key === 'Escape') handleCancelEdit();
               }}
-              className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-indigo-500/50 text-slate-100 text-sm outline-none focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-indigo-500/50 text-slate-100 text-base sm:text-sm outline-none focus:ring-2 focus:ring-indigo-500/30"
               autoFocus
             />
           </div>
@@ -238,7 +238,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
               placeholder="Optional description/notes..."
               disabled={isSaving}
               rows={2}
-              className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-200 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 resize-none"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-200 text-base sm:text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 resize-none"
             />
           </div>
 
@@ -252,7 +252,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
                 <button
                   type="button"
                   onClick={() => setEditDueDate('')}
-                  className="text-[11px] text-slate-500 hover:text-rose-400 font-medium transition-colors"
+                  className="text-[11px] text-slate-500 hover:text-rose-400 font-medium transition-colors p-1"
                 >
                   Clear Deadline
                 </button>
@@ -265,20 +265,20 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
                 value={editDueDate}
                 onChange={(e) => setEditDueDate(e.target.value)}
                 disabled={isSaving}
-                className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700/80 text-slate-100 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 text-slate-100 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 min-h-[38px]"
               />
-              <div className="flex items-center gap-1 flex-wrap">
+              <div className="grid grid-cols-2 sm:flex items-center gap-1">
                 <button
                   type="button"
                   onClick={() => applyEditPreset('today_5pm')}
-                  className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-[10px] font-medium"
+                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-[11px] font-medium text-center min-h-[32px] flex items-center justify-center"
                 >
                   Today 5PM
                 </button>
                 <button
                   type="button"
                   onClick={() => applyEditPreset('tomorrow_9am')}
-                  className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-[10px] font-medium"
+                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-[11px] font-medium text-center min-h-[32px] flex items-center justify-center"
                 >
                   Tomorrow 9AM
                 </button>
@@ -292,13 +292,13 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
         </form>
       ) : (
         /* Normal Task Card View */
-        <div className="flex items-start gap-3.5">
+        <div className="flex items-start gap-3 sm:gap-3.5">
           {/* Toggle Checkbox */}
           <button
             type="button"
             onClick={handleToggle}
             disabled={isToggling || isDeleting}
-            className={`mt-0.5 w-6 h-6 rounded-lg border flex items-center justify-center transition-all duration-200 shrink-0 cursor-pointer ${
+            className={`mt-0.5 w-6 h-6 sm:w-6 sm:h-6 rounded-lg border flex items-center justify-center transition-all duration-200 shrink-0 cursor-pointer min-w-[24px] min-h-[24px] ${
               todo.completed
                 ? 'bg-emerald-500 border-emerald-500 text-slate-950 shadow-sm shadow-emerald-500/30'
                 : 'border-slate-700 hover:border-indigo-500 bg-slate-950/60'
@@ -313,10 +313,10 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
 
           {/* Content Body */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-start justify-between gap-2">
               <h3
                 onClick={() => todo.description && setIsExpanded(!isExpanded)}
-                className={`text-base font-medium leading-snug cursor-pointer transition-all ${
+                className={`text-sm sm:text-base font-semibold leading-snug cursor-pointer transition-all pt-0.5 ${
                   todo.completed
                     ? 'line-through text-slate-500'
                     : 'text-slate-200 hover:text-indigo-400'
@@ -326,13 +326,13 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
               </h3>
 
               {/* Actions */}
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-1 shrink-0 -mt-1 -mr-1 sm:mt-0 sm:mr-0">
                 {todo.description && (
                   <button
                     type="button"
                     onClick={() => setIsExpanded(!isExpanded)}
                     title="Toggle notes view"
-                    className="p-1.5 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-800/60 transition-colors cursor-pointer"
+                    className="p-2 sm:p-1.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center"
                   >
                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </button>
@@ -344,7 +344,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
                   onClick={handleStartEdit}
                   disabled={isDeleting || isToggling}
                   title="Edit Task"
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors disabled:opacity-50 cursor-pointer"
+                  className="p-2 sm:p-1.5 rounded-xl text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors disabled:opacity-50 cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center"
                 >
                   <Edit3 className="w-4 h-4" />
                 </button>
@@ -355,7 +355,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
                   onClick={handleDelete}
                   disabled={isDeleting || isToggling}
                   title="Delete Task"
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors disabled:opacity-50 cursor-pointer"
+                  className="p-2 sm:p-1.5 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors disabled:opacity-50 cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center"
                 >
                   {isDeleting ? (
                     <Loader2 className="w-4 h-4 animate-spin text-rose-400" />
@@ -373,7 +373,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="mt-2 text-sm text-slate-400 bg-slate-950/50 p-3 rounded-xl border border-slate-800/80 leading-relaxed"
+                  className="mt-2 text-xs sm:text-sm text-slate-400 bg-slate-950/50 p-3 rounded-xl border border-slate-800/80 leading-relaxed"
                 >
                   {todo.description}
                 </motion.div>
@@ -381,17 +381,17 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
             </AnimatePresence>
 
             {/* Metadata & Deadline Footer */}
-            <div className="flex flex-wrap items-center gap-2.5 mt-3 text-xs text-slate-500 font-medium">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 mt-3 text-[11px] sm:text-xs text-slate-500 font-medium">
               <span className="flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5" />
+                <Calendar className="w-3.5 h-3.5 shrink-0 text-slate-500" />
                 {formatDate(todo.createdAt)}
               </span>
 
-              <span className="w-1 h-1 rounded-full bg-slate-700" />
+              <span className="w-1 h-1 rounded-full bg-slate-700 hidden sm:inline-block" />
 
               {/* Status Badge */}
               <span
-                className={`px-2 py-0.5 rounded-md border text-[11px] font-semibold tracking-wide ${
+                className={`px-2 py-0.5 rounded-md border text-[10px] sm:text-[11px] font-semibold tracking-wide ${
                   todo.completed
                     ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                     : 'bg-slate-800 text-slate-400 border-slate-700'
@@ -403,7 +403,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }) {
               {/* Real-time Deadline Badge */}
               {deadlineStatus && (
                 <span
-                  className={`px-2.5 py-0.5 rounded-md border text-[11px] font-semibold tracking-wide flex items-center gap-1.5 ${deadlineStatus.className}`}
+                  className={`px-2 sm:px-2.5 py-0.5 rounded-md border text-[10px] sm:text-[11px] font-semibold tracking-wide flex items-center gap-1 sm:gap-1.5 ${deadlineStatus.className}`}
                 >
                   <deadlineStatus.icon className="w-3 h-3 shrink-0" />
                   <span>{deadlineStatus.label}</span>

@@ -116,7 +116,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <main className="min-h-screen py-6 sm:py-12 px-3.5 sm:px-6 lg:px-8 max-w-4xl mx-auto pb-12">
       {/* Success Toast Floating Banner */}
       <AnimatePresence>
         {successToast && (
@@ -124,20 +124,20 @@ export default function Home() {
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-5 right-5 z-50 bg-emerald-500/15 border border-emerald-500/30 backdrop-blur-xl text-emerald-300 px-4 py-3 rounded-2xl shadow-xl shadow-emerald-950/40 flex items-center gap-2.5 text-sm font-medium"
+            className="fixed top-4 left-4 right-4 sm:left-auto sm:right-5 z-50 bg-emerald-500/15 border border-emerald-500/30 backdrop-blur-xl text-emerald-300 px-4 py-3 rounded-2xl shadow-xl shadow-emerald-950/40 flex items-center gap-2.5 text-sm font-medium"
           >
             <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
-            <span>{successToast}</span>
+            <span className="truncate">{successToast}</span>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight flex items-center gap-3">
-            <span className="p-2 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30">
-              <CheckSquare className="w-6 h-6 sm:w-7 sm:h-7" />
+          <h1 className="text-xl sm:text-3xl font-extrabold text-slate-100 tracking-tight flex items-center gap-2.5 sm:gap-3">
+            <span className="p-1.5 sm:p-2 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30">
+              <CheckSquare className="w-5 h-5 sm:w-7 sm:h-7" />
             </span>
             Todo Tracker
           </h1>
@@ -146,7 +146,7 @@ export default function Home() {
         <button
           onClick={fetchTodos}
           disabled={loading}
-          className="px-3.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-slate-100 text-xs font-medium transition-all duration-200 flex items-center gap-2 shadow-sm disabled:opacity-50 cursor-pointer"
+          className="px-3 sm:px-3.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-slate-100 text-xs font-medium transition-all duration-200 flex items-center gap-2 shadow-sm disabled:opacity-50 cursor-pointer min-h-[38px]"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh</span>

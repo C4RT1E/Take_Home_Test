@@ -38,8 +38,8 @@ export default function TodoStats({ todos }) {
   ];
 
   return (
-    <div className="space-y-4 mb-8">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div className="space-y-3.5 sm:space-y-4 mb-6 sm:mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         {statCards.map((stat, idx) => {
           const Icon = stat.icon;
           return (
@@ -48,18 +48,18 @@ export default function TodoStats({ todos }) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: idx * 0.05 }}
-              className={`bg-slate-900/60 border rounded-2xl p-4 sm:p-5 flex flex-col justify-between relative overflow-hidden group hover:border-slate-700 transition-all duration-300 shadow-lg shadow-slate-950/40`}
+              className={`bg-slate-900/60 border rounded-2xl p-3 sm:p-5 flex flex-col justify-between relative overflow-hidden group hover:border-slate-700 transition-all duration-300 shadow-lg shadow-slate-950/40`}
             >
-              <div className="flex items-center justify-between">
-                <span className="text-xs sm:text-sm font-medium text-slate-400">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[11px] sm:text-sm font-medium text-slate-400 truncate">
                   {stat.title}
                 </span>
-                <div className={`p-2 rounded-xl bg-gradient-to-br ${stat.color} border shadow-inner`}>
-                  <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <div className={`p-1.5 sm:p-2 rounded-xl bg-gradient-to-br ${stat.color} border shadow-inner shrink-0`}>
+                  <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                 </div>
               </div>
-              <div className="mt-3">
-                <span className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
+              <div className="mt-2 sm:mt-3">
+                <span className="text-xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
                   {stat.value}
                 </span>
               </div>
@@ -69,7 +69,7 @@ export default function TodoStats({ todos }) {
       </div>
 
       {/* Progress Bar */}
-      <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 sm:p-5 shadow-lg shadow-slate-950/40">
+      <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-slate-950/40">
         <div className="flex items-center justify-between mb-2 text-xs sm:text-sm">
           <span className="font-medium text-slate-300">Overall Progress</span>
           <span className="font-semibold text-indigo-400">{completed} of {total} completed</span>

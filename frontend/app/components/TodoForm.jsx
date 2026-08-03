@@ -66,15 +66,15 @@ export default function TodoForm({ onAddTodo, isLoading }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       onSubmit={handleSubmit}
-      className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-5 sm:p-6 mb-8 shadow-xl shadow-slate-950/50 space-y-4"
+      className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 shadow-xl shadow-slate-950/50 space-y-4"
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-100">
+        <h2 className="text-base sm:text-lg font-semibold text-slate-100">
           Create New Task
         </h2>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3.5 sm:space-y-4">
         {/* Title Input */}
         <div>
           <input
@@ -86,9 +86,9 @@ export default function TodoForm({ onAddTodo, isLoading }) {
               if (error) setError('');
             }}
             disabled={isLoading}
-            className={`w-full px-4 py-3 rounded-xl bg-slate-950/70 border ${
+            className={`w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-slate-950/70 border ${
               error ? 'border-rose-500/70 focus:ring-rose-500/30' : 'border-slate-800 focus:border-indigo-500 focus:ring-indigo-500/20'
-            } text-slate-100 placeholder-slate-500 outline-none focus:ring-2 transition-all text-sm sm:text-base`}
+            } text-slate-100 placeholder-slate-500 outline-none focus:ring-2 transition-all text-base sm:text-base`}
           />
         </div>
 
@@ -100,12 +100,12 @@ export default function TodoForm({ onAddTodo, isLoading }) {
             onChange={(e) => setDescription(e.target.value)}
             disabled={isLoading}
             rows={2}
-            className="w-full px-4 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-sm resize-none"
+            className="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-base sm:text-sm resize-none"
           />
         </div>
 
         {/* Styled Set Deadline Section */}
-        <div className="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2.5">
+        <div className="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3 sm:p-3.5 space-y-2.5">
           <div className="flex items-center justify-between">
             <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
               <span className="p-1 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
@@ -117,7 +117,7 @@ export default function TodoForm({ onAddTodo, isLoading }) {
               <button
                 type="button"
                 onClick={() => setDueDate('')}
-                className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors flex items-center gap-1 cursor-pointer font-medium"
+                className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors flex items-center gap-1 cursor-pointer font-medium p-1"
               >
                 <X className="w-3 h-3" /> Clear Deadline
               </button>
@@ -131,37 +131,37 @@ export default function TodoForm({ onAddTodo, isLoading }) {
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
                 disabled={isLoading}
-                className="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700/80 text-slate-100 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 text-slate-100 text-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all min-h-[38px]"
               />
             </div>
 
             {/* Quick Shortcut Chips */}
-            <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="grid grid-cols-2 sm:flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={() => applyPreset('today_5pm')}
-                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer text-center min-h-[34px] flex items-center justify-center"
               >
                 Today 5 PM
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('tomorrow_9am')}
-                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer text-center min-h-[34px] flex items-center justify-center"
               >
                 Tomorrow 9 AM
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('in_3_days')}
-                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer text-center min-h-[34px] flex items-center justify-center"
               >
                 In 3 Days
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('next_week')}
-                className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-indigo-300 text-[11px] font-medium transition-colors cursor-pointer text-center min-h-[34px] flex items-center justify-center"
               >
                 Next Week
               </button>
@@ -188,7 +188,7 @@ export default function TodoForm({ onAddTodo, isLoading }) {
         <button
           type="submit"
           disabled={isLoading || !title.trim()}
-          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-sm shadow-lg shadow-indigo-600/25 hover:shadow-indigo-500/35 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-200 flex items-center gap-2 cursor-pointer"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/25 hover:shadow-indigo-500/35 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer min-h-[44px]"
         >
           {isLoading ? (
             <>
